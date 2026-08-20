@@ -1,14 +1,20 @@
 # Machine Learning Quiz Links
 
-## Immediate share link
+## Instructor: connect the results sheet
 
-[Open the shuffled-answer quiz through the static CDN](https://rawcdn.githack.com/ahmed-sharshar/Get_it/6f08dcdad894153b3ad6305424380f0dfd35d1a4/quiz/index.html)
+[Open the Google Sheets setup page](https://rawcdn.githack.com/ahmed-sharshar/Get_it/0edd2d1315a07c7849eb82f7a68ffb0d66512e0a/quiz/setup-results.html)
 
-The CDN may display a one-time confirmation screen before opening an HTML page.
+Use the setup page to deploy the supplied Google Apps Script, paste its production `/exec` URL, and generate the student share link. The generated link submits each student's name, ID/email, and server-calculated score to the instructor's Google Sheet.
 
-## GitHub Pages link
+## Practice link without result collection
 
-After GitHub Pages is enabled for the repository, use:
+[Open the quiz in practice mode](https://rawcdn.githack.com/ahmed-sharshar/Get_it/0edd2d1315a07c7849eb82f7a68ffb0d66512e0a/quiz/index.html)
+
+The practice link displays the score and answer review, but it does not upload a result.
+
+## GitHub Pages
+
+After GitHub Pages is enabled for the repository, the quiz is available at:
 
 [Open the quiz through GitHub Pages](https://ahmed-sharshar.github.io/Get_it/)
 
