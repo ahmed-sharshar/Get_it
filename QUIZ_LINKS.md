@@ -2,7 +2,7 @@
 
 ## Immediate share link
 
-[Open the quiz through the static CDN](https://rawcdn.githack.com/ahmed-sharshar/Get_it/613f5e6c5477f3e72e2c96cebbf2d27c6ffee12e/quiz/index.html)
+[Open the shuffled-answer quiz through the static CDN](https://rawcdn.githack.com/ahmed-sharshar/Get_it/6f08dcdad894153b3ad6305424380f0dfd35d1a4/quiz/index.html)
 
 The CDN may display a one-time confirmation screen before opening an HTML page.
 
