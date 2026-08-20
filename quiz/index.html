@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Thirty-question machine learning quiz with automatic scoring and answer review.">
+  <title>Machine Learning Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="tag">HCIA AI · Machine Learning Assessment</p>
+      <h1>Machine Learning Quiz</h1>
+      <p class="lead">Answer all 30 multiple-choice questions. Your score, the correct answers, and explanations will appear after submission.</p>
+      <div class="facts"><span>30 questions</span><span>One answer each</span><span>Immediate feedback</span></div>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <section class="panel intro">
+      <div>
+        <h2>Instructions</h2>
+        <p>The questions follow the lecture order. Correct answers remain hidden until the quiz is submitted.</p>
+      </div>
+      <label class="name">Student name <small>(optional)</small><input id="studentName" maxlength="80" placeholder="Enter your name"></label>
+    </section>
+
+    <section class="progress-panel" aria-label="Quiz progress">
+      <div class="track"><div id="bar"></div></div>
+      <strong id="progressText">0 of 30 answered</strong>
+    </section>
+
+    <section id="result" class="panel result" tabindex="-1" aria-live="polite">
+      <div class="result-grid">
+        <div id="ring" class="ring"><div><strong id="percent">0%</strong><span id="fraction">0 / 30</span></div></div>
+        <div>
+          <h2 id="resultTitle">Quiz completed</h2>
+          <p id="resultMessage"></p>
+          <p id="studentLine"></p>
+          <div class="stats">
+            <div><strong id="correctCount">0</strong><span>Correct</span></div>
+            <div><strong id="wrongCount">0</strong><span>Incorrect</span></div>
+            <div><strong id="scorePercent">0%</strong><span>Score</span></div>
+          </div>
+          <div class="actions">
+            <button id="reviewBtn" type="button">Review answers</button>
+            <button id="copyBtn" class="light" type="button">Copy result</button>
+            <button id="printBtn" class="light" type="button">Print</button>
+            <button id="retakeBtn" class="light" type="button">Retake</button>
+          </div>
+        </div>
+      </div>
+      <h2 id="reviewHeading" class="review-heading">Answer review</h2>
+      <div id="review"></div>
+    </section>
+
+    <form id="quiz" novalidate></form>
+
+    <section id="submitBox" class="submit-box">
+      <span id="submitHint">Answer all questions, then submit to see your result.</span>
+      <button type="submit" form="quiz">Submit quiz</button>
+    </section>
+
+    <p class="privacy">This quiz runs in the browser. Names, answers, and scores are not uploaded or stored.</p>
+  </main>
+
+  <div id="notice" class="notice" role="alert"></div>
+  <script src="quiz.js"></script>
+</body>
+</html>
