@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Thirty-question machine learning quiz with automatic scoring and answer review.">
+  <meta name="description" content="Thirty-question machine learning quiz with automatic scoring, answer review, and instructor result collection.">
   <title>Machine Learning Quiz</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="results.css">
 </head>
 <body>
   <header class="hero">
@@ -21,9 +22,17 @@
     <section class="panel intro">
       <div>
         <h2>Instructions</h2>
-        <p>The questions follow the lecture order. Correct answers remain hidden until the quiz is submitted.</p>
+        <p>The questions follow the lecture order. Correct answers remain hidden until the quiz is submitted. Complete both identity fields so your instructor can match your result.</p>
+        <p id="collectionMode" class="collection-mode" aria-live="polite"></p>
       </div>
-      <label class="name">Student name <small>(optional)</small><input id="studentName" maxlength="80" placeholder="Enter your name"></label>
+      <div class="identity-grid">
+        <label class="name">Student name <small>(required when collection is enabled)</small>
+          <input id="studentName" maxlength="80" autocomplete="name" placeholder="Enter your full name" required>
+        </label>
+        <label class="name">Student ID or institutional email <small>(required when collection is enabled)</small>
+          <input id="studentId" maxlength="120" autocomplete="username" placeholder="Enter your ID or email" required>
+        </label>
+      </div>
     </section>
 
     <section class="progress-panel" aria-label="Quiz progress">
@@ -42,6 +51,11 @@
             <div><strong id="correctCount">0</strong><span>Correct</span></div>
             <div><strong id="wrongCount">0</strong><span>Incorrect</span></div>
             <div><strong id="scorePercent">0%</strong><span>Score</span></div>
+          </div>
+          <div id="submissionState" class="submission-state" role="status" aria-live="polite">
+            <strong id="submissionTitle">Result submission</strong>
+            <span id="submissionMessage">Your submission status will appear here.</span>
+            <button id="retrySubmitBtn" class="light" type="button" hidden>Retry submission</button>
           </div>
           <div class="actions">
             <button id="reviewBtn" type="button">Review answers</button>
@@ -62,11 +76,12 @@
       <button type="submit" form="quiz">Submit quiz</button>
     </section>
 
-    <p class="privacy">This quiz runs in the browser. Names, answers, and scores are not uploaded or stored.</p>
+    <p class="privacy">When instructor collection is enabled, your name, ID/email, score, and submission time are stored in the instructor's Google Sheet. Your selected answers are sent only for scoring and are not saved. No password is requested.</p>
   </main>
 
   <div id="notice" class="notice" role="alert"></div>
   <script src="quiz.js"></script>
   <script src="option-order.js"></script>
+  <script src="results-submission.js"></script>
 </body>
 </html>

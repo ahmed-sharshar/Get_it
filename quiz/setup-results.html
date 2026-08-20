@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Connect the Machine Learning Quiz to a Google Sheets results endpoint.">
+  <title>Configure Quiz Results Collection</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="results.css">
+</head>
+<body>
+  <header class="hero compact-hero">
+    <div class="wrap">
+      <p class="tag">Instructor setup</p>
+      <h1>Connect Quiz Results</h1>
+      <p class="lead">Paste the Google Apps Script web-app URL to generate the student quiz link that records every submission in your Google Sheet.</p>
+    </div>
+  </header>
+
+  <main class="wrap setup-main">
+    <section class="panel setup-panel">
+      <h2>1. Deploy the Google Apps Script</h2>
+      <ol>
+        <li>Create a Google Sheet, then open <strong>Extensions → Apps Script</strong>.</li>
+        <li>Paste the supplied <code>Code.gs</code> file into the editor.</li>
+        <li>Run <code>setupSheet</code> once and approve the requested spreadsheet permission.</li>
+        <li>Select <strong>Deploy → New deployment → Web app</strong>.</li>
+        <li>Set <strong>Execute as</strong> to yourself and allow access to anyone who will take the quiz.</li>
+        <li>Copy the deployed URL ending in <code>/exec</code>.</li>
+      </ol>
+      <div class="actions">
+        <a class="button-link" href="google-apps-script/Code.gs" target="_blank" rel="noopener">Open Code.gs template</a>
+        <a class="button-link" href="google-apps-script/SETUP.md" target="_blank" rel="noopener">Open detailed setup guide</a>
+      </div>
+    </section>
+
+    <section class="panel setup-panel">
+      <h2>2. Generate the student link</h2>
+      <label class="name">Apps Script web-app URL
+        <input id="endpointInput" type="url" autocomplete="off" placeholder="https://script.google.com/macros/s/.../exec">
+      </label>
+      <button id="generateBtn" type="button">Generate student link</button>
+      <p id="setupError" class="setup-error" role="alert"></p>
+
+      <div id="generatedBox" class="generated-box" hidden>
+        <label class="name">Share this quiz link with students
+          <textarea id="generatedLink" rows="4" readonly></textarea>
+        </label>
+        <div class="actions">
+          <button id="copyLinkBtn" type="button">Copy link</button>
+          <a id="openQuizLink" class="button-link" target="_blank" rel="noopener">Open test quiz</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel setup-panel">
+      <h2>3. Download the class results</h2>
+      <p>Open the Google Sheet at any time. Use <strong>File → Download → Microsoft Excel (.xlsx)</strong> or <strong>Comma-separated values (.csv)</strong>.</p>
+      <p class="setup-note">The endpoint is stored only inside the generated link fragment. The quiz hosting service does not receive it, but students can still inspect it in their browser. This system is appropriate for practice and ordinary classroom quizzes, not a high-security examination.</p>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    const endpointInput = document.getElementById("endpointInput");
+    const generateBtn = document.getElementById("generateBtn");
+    const generatedBox = document.getElementById("generatedBox");
+    const generatedLink = document.getElementById("generatedLink");
+    const setupError = document.getElementById("setupError");
+    const openQuizLink = document.getElementById("openQuizLink");
+    const copyLinkBtn = document.getElementById("copyLinkBtn");
+
+    function validEndpoint(value) {
+      try {
+        const url = new URL(value);
+        return url.protocol === "https:" &&
+          url.hostname === "script.google.com" &&
+          /^\/macros\/s\/[^/]+\/exec$/.test(url.pathname);
+      } catch (_error) {
+        return false;
+      }
+    }
+
+    function generateLink() {
+      const endpoint = endpointInput.value.trim();
+      if (!validEndpoint(endpoint)) {
+        setupError.textContent = "Paste the deployed Apps Script web-app URL ending in /exec.";
+        generatedBox.hidden = true;
+        return;
+      }
+
+      const quizUrl = new URL("index.html", window.location.href);
+      quizUrl.hash = `resultsEndpoint=${encodeURIComponent(endpoint)}`;
+      generatedLink.value = quizUrl.href;
+      openQuizLink.href = quizUrl.href;
+      generatedBox.hidden = false;
+      setupError.textContent = "";
+    }
+
+    generateBtn.addEventListener("click", generateLink);
+    endpointInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") generateLink();
+    });
+    copyLinkBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(generatedLink.value);
+        copyLinkBtn.textContent = "Copied";
+        window.setTimeout(() => { copyLinkBtn.textContent = "Copy link"; }, 1600);
+      } catch (_error) {
+        generatedLink.focus();
+        generatedLink.select();
+      }
+    });
+  </script>
+</body>
+</html>
